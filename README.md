@@ -1,4 +1,3 @@
-```markdown
 # ChatLingo AI — Translator for WhatsApp & Slack
 
 > **Type in your language, send in theirs.**
@@ -51,46 +50,3 @@ Persian (`fa`), English (`en`), German (`de`), Russian (`ru`), Spanish (`es`), C
 ---
 
 ## 🏗️ Technical Architecture
-
-
-```
-
-┌──────────────────────────────────────────────────────────────┐
-│  content.js (Injected into WhatsApp & Slack)                 │
-│                                                              │
-│  ┌─────────────┐    ┌─────────────┐    ┌─────────────────┐   │
-│  │ SlackAdapter │    │ WhatsAppAdapt│    │ Shared UI       │   │
-│  │  • Quill/DOM │    │  • React DOM │    │  • Event hooks  │   │
-│  └─────────────┘    └─────────────┘    └────────┬────────┘   │
-│                                                 │            │
-└─────────────────────────────────────────────────┼────────────┘
-chrome.runtime.connect
-│
-┌─────────────────────────────────────────────────▼────────────┐
-│  background.js (MV3 Service Worker)                          │
-│  • Manages streaming connections & handles Direct LLM API calls│
-└───────────────────────────────────────────────────────────────┘
-
-```
-
-### Framework Challenges Handled:
-* **WhatsApp Web:** Overcomes React's controlled `contenteditable` state by programmatically triggering a synthetic `ClipboardEvent('paste')` coupled with async DOM polling to prevent input desync.
-* **Slack Web:** Interacts cleanly with the underlying Quill editor infrastructure using native DOM command inserts to allow live token streaming.
-
----
-
-## 🐛 Troubleshooting Quick-Fix
-
-* **No T-Send Button?** Ensure you have typed at least one character. WhatsApp hides send components on empty inputs.
-* **Paste Failures (WhatsApp)?** Clear the box manually (`Ctrl+A` -> `Backspace`), click into the input field to re-focus, and try again.
-* **API Errors:** Check your console (F12). 
-  * `401`: Key invalid. 
-  * `429`: Rate limited.
-
----
-
-## 📝 License
-
-Distributed under the **MIT License**. Feel free to fork, modify, and distribute.
-
-```
